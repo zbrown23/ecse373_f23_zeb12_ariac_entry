@@ -5,13 +5,11 @@
 
 
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
     ros::init(argc, argv, "ariac_entry");
     ros::NodeHandle n;
     Competition Competition(n);
     CompetitionOrders orders(n);
-
-
-  return 0;
+    ros::spin();
+    return 0;
 }

@@ -2,8 +2,8 @@
 
 CompetitionOrders::CompetitionOrders(ros::NodeHandle &nh) {
     node = nh;
-    orderSubscriber = node.subscribe("ariac/orders", 1000, &CompetitionOrders::orderSubscriberCallback, this);
-    productTypeClient = node.serviceClient<osrf_gear::GetMaterialLocations>("ariac/material_locations");
+    orderSubscriber = node.subscribe("/ariac/orders", 1000, &CompetitionOrders::orderSubscriberCallback, this);
+    productTypeClient = node.serviceClient<osrf_gear::GetMaterialLocations>("/ariac/material_locations");
     orders.clear();
 }
 
