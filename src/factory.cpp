@@ -47,18 +47,23 @@ void CompetitionOrders::locateProduct(std::string& productName) {
         std::string identifiedBin;
         if (materialLocationService.call(materialLocations)) {
             identifiedBin = materialLocations.response.storage_units[0].unit_id;
-            auto location = imageMap["/ariac/logical_camera_" + identifiedBin];
-            ROS_INFO("located part %s in bin %s with pose w: %f x: %f y: %f z: %f x: %f y: %f z: %f",
+            auto objects = imageMap["/ariac/logical_camera_" + identifiedBin];
+            for (auto &model: objects->models) {
+                if (model.type == productName){
+                    ROS_INFO("located part %s in bin %s with pose w: %f x: %f y: %f z: %f x: %f y: %f z: %f",
                      productName.c_str(),
                      identifiedBin.c_str(),
-                     location->pose.orientation.w,
-                     location->pose.orientation.x,
-                     location->pose.orientation.y,
-                     location->pose.orientation.z,
-                     location->pose.position.x,
-                     location->pose.position.y,
-                     location->pose.position.z
+                     model.pose.orientation.w,
+                     model.pose.orientation.x,
+                     model.pose.orientation.y,
+                     model.pose.orientation.z,
+                     model.pose.position.x,
+                     model.pose.position.y,
+                     model.pose.position.z
                      );
+                }
+            }
+
         } else {
             ROS_ERROR("failed to call material location service!");
         }
@@ -68,5 +73,6 @@ void CompetitionOrders::subscriberCallback(const ros::MessageEvent<osrf_gear::Lo
     const ros::M_string& header = event.getConnectionHeader();
     const std::string topic = header.at("topic");
     auto msg = event.getMessage();
+    ROS_WARN("this is working, surprisingly enough.");
     imageMap[topic] = msg;
 }
