@@ -34,8 +34,9 @@ private:
         "/ariac/quality_control_sensor_1",
         "/ariac/quality_control_sensor_2"
     };
-    std::map<std::string, osrf_gear::LogicalCameraImageConstPtr> imageMap;
+    std::map<std::string, osrf_gear::LogicalCameraImage> imageMap;
     std::vector<ros::Subscriber> subscribers;
+    void waitUntilFullMap();
 public:
     void locateProduct(std::string& productName);
     void subscriberCallback(const ros::MessageEvent<osrf_gear::LogicalCameraImage const>& event);
