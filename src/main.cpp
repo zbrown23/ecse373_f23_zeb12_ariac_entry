@@ -11,7 +11,6 @@ int main(int argc, char **argv) {
     Competition competition(n);
     CompetitionOrders orders(n);
     competition.begin_competition();
-    orders.processOrders();
     ros::spin();
     return 0;
 }

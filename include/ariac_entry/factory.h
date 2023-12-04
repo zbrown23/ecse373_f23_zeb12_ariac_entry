@@ -7,6 +7,9 @@
 #include <osrf_gear/StorageUnit.h>
 #include <osrf_gear/LogicalCameraImage.h>
 #include <osrf_gear/GetMaterialLocations.h>
+#include "tf2_ros/transform_listener.h"
+#include "tf2_geometry_msgs/tf2_geometry_msgs.h"
+#include "tf2_ros/buffer.h"
 #include<iterator>
 
 class CompetitionOrders {
@@ -19,7 +22,8 @@ private:
 public:
     CompetitionOrders(ros::NodeHandle& nh);
     void orderSubscriberCallback(const osrf_gear::Order::ConstPtr& msg);
-    void processOrders();
+    void locateBin();
+    void printPose(osrf_gear::Model &product, osrf_gear::StorageUnit &storage_unit);
 private:
     ros::ServiceClient materialLocationService;
     std::vector<std::string> cameraNames = {
@@ -34,11 +38,10 @@ private:
         "/ariac/quality_control_sensor_1",
         "/ariac/quality_control_sensor_2"
     };
-    std::map<std::string, osrf_gear::LogicalCameraImage> imageMap;
+    std::map<std::string, osrf_gear::LogicalCameraImage> cameraImages;
     std::vector<ros::Subscriber> subscribers;
-    void waitUntilFullMap();
 public:
-    void locateProduct(std::string& productName);
+    void locateProduct(std::string& productName, std::vector<osrf_gear::StorageUnit> &storage_units);
     void subscriberCallback(const ros::MessageEvent<osrf_gear::LogicalCameraImage const>& event);
 };
 
