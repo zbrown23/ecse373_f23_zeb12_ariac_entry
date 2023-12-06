@@ -50,7 +50,7 @@ void CompetitionOrders::locateProduct(std::string& productName, std::vector<osrf
 }
 
 
-static void printHelper(geometry_msgs::Pose& pose, std::string name){
+static void printHelper(geometry_msgs::Pose& pose, std::string name) {
     ROS_WARN("%s pose:\n"
            "    position: \n\t x: %f \n\t y: %f \n\t z: %f \n"
            "    rotation: \n\t w: %f \n\t x: %f \n\t y: %f \n\t z: %f \n\n",
@@ -85,7 +85,7 @@ void CompetitionOrders::printPose(osrf_gear::Model &product, osrf_gear::StorageU
 }
 
 
-void CompetitionOrders::subscriberCallback(const ros::MessageEvent<osrf_gear::LogicalCameraImage const>& event){
+void CompetitionOrders::subscriberCallback(const ros::MessageEvent<osrf_gear::LogicalCameraImage const>& event) {
     const ros::M_string& header = event.getConnectionHeader();
     const std::string topic = header.at("topic");
     auto msg = event.getMessage();
