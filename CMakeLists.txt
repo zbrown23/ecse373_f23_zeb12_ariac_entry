@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   ecse_373_ariac
   roscpp
   rviz
+  ik_service
 )
 
 ## System dependencies are found with CMake's conventions
@@ -137,6 +138,7 @@ add_executable(${PROJECT_NAME}_node
   src/main.cpp
   src/factory.cpp
   src/competition.cpp
+  src/robot.cpp
 )
 
 ## Rename C++ executable without prefix
