@@ -8,6 +8,7 @@
 Robot::Robot(ros::NodeHandle &nh) {
     n = nh;
     ik_client = n.serviceClient<ik_service::PoseIK>("pose_ik");
+    trajectoryAction = new actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>("/ariac/arm1/arm/follow_joint_trajectory/", true);
     jointStateSubscriber = n.subscribe("ariac/arm1/joint_states", 10, &Robot::jointStateCallback, this);
     if (!ros::service::waitForService("pose_ik", 10)) {
         ROS_ERROR("Did not find pose_ik service!");
@@ -88,9 +89,10 @@ void Robot::generateTrajectory(geometry_msgs::Point destination) {
 }
 
 void Robot::doTrajectory(trajectory_msgs::JointTrajectory &joint_trajectory) {
-    actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>trajectory_ac("ariac/arm/follow_joint_trajectory", true);
     control_msgs::FollowJointTrajectoryAction joint_trajectory_action;
     joint_trajectory_action.action_goal.goal.trajectory = joint_trajectory;
+    actionlib::SimpleClientGoalState state = trajectoryAction->sendGoalAndWait(joint_trajectory_action.action_goal.goal, ros::Duration(30.0), ros::Duration(30.0));
+    ROS_INFO("action server is in: [%i] %s", state.state_, state.toString().c_str());
 }
 
 

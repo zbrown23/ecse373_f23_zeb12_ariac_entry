@@ -12,6 +12,7 @@ private:
     ros::Subscriber jointStateSubscriber;
     sensor_msgs::JointState jointState;
     ros::ServiceClient ik_client;
+    actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction> *trajectoryAction;
     void doTrajectory(trajectory_msgs::JointTrajectory &joint_trajectory);
 public:
     Robot(ros::NodeHandle &nh);
